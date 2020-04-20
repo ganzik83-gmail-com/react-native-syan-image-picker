@@ -164,7 +164,7 @@ RCT_EXPORT_METHOD(openVideoPicker:(NSDictionary *)options callback:(RCTResponseS
 
     __weak TZImagePickerController *weakPicker = imagePickerVc;
     [imagePickerVc setDidFinishPickingPhotosWithInfosHandle:^(NSArray<UIImage *> *photos,NSArray *assets,BOOL isSelectOriginalPhoto,NSArray<NSDictionary *> *infos) {
-        [self handleAssets:assets photos:photos quality:quality isSelectOriginalPhoto:isSelectOriginalPhoto completion:^(NSArray *selecteds) {
+        [self handleAssets:assets photos:photos quality:quality isSelectOriginalPhoto:true completion:^(NSArray *selecteds) {
             callback(@[[NSNull null], selecteds]);
             [weakPicker dismissViewControllerAnimated:YES completion:nil];
             [weakPicker hideProgressHUD];
@@ -259,7 +259,7 @@ RCT_EXPORT_METHOD(openVideoPicker:(NSDictionary *)options callback:(RCTResponseS
             [self invokeSuccessWithResult:@[[self handleCropImage:photos[0] phAsset:assets[0] quality:quality]]];
         } else {
             [infos enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                [self handleAssets:assets photos:photos quality:quality isSelectOriginalPhoto:isSelectOriginalPhoto completion:^(NSArray *selecteds) {
+                [self handleAssets:assets photos:photos quality:quality isSelectOriginalPhoto:true completion:^(NSArray *selecteds) {
                     [self invokeSuccessWithResult:selecteds];
                 } fail:^(NSError *error) {
 
