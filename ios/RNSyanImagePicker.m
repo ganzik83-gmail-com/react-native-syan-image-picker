@@ -335,9 +335,10 @@ RCT_EXPORT_METHOD(openVideoPicker:(NSDictionary *)options callback:(RCTResponseS
             tzImagePickerVc.sortAscendingByModificationDate = NO;
             [tzImagePickerVc showProgressHUD];
             UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+	    NSDictionary *meta = [info objectForKey:UIImagePickerControllerMediaMetadata];
 
             // save photo and get asset / 保存图片，获取到asset
-            [[TZImageManager manager] savePhotoWithImage:image location:NULL completion:^(PHAsset *asset, NSError *error){
+            [[TZImageManager manager] savePhotoWithImage:image meta:meta location:NULL completion:^(PHAsset *asset, NSError *error){
                 if (error) {
                     [tzImagePickerVc hideProgressHUD];
                     NSLog(@"图片保存失败 %@",error);
