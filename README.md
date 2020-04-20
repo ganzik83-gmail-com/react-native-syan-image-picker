@@ -391,5 +391,10 @@ SYImagePicker.deleteCache();
 随时欢迎！！☕️☕️☕️✨✨
 
 
+--------------------------
+
+오리지널 사진을 
+isSelectOriginalPhoto: true 로 변경시킨다
+
 
 
