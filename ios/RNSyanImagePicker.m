@@ -488,6 +488,13 @@ RCT_EXPORT_METHOD(openVideoPicker:(NSDictionary *)options callback:(RCTResponseS
 // 사진 생성일 string 타입으로 저장
     NSString *strDate = [formatter stringFromDate:phAsset.creationDate];
 //        NSLog(@"%@", strDate);
+	//    위치정보 가져오기
+// https://stackoverflow.com/questions/39744762/how-to-get-latitude-and-longitude-of-an-image-using-phasset-in-ios
+    
+    NSString *longitude = [NSString stringWithFormat:@"%f",phAsset.location.coordinate.longitude];
+    NSString *latitude = [NSString stringWithFormat:@"%f",phAsset.location.coordinate.latitude];
+//    NSLog(@"%@", longitude);
+//    NSLog(@"%@", latitude);
 	
     BOOL isPNG = [fileExtension hasSuffix:@"PNG"] || [fileExtension hasSuffix:@"png"];
 
@@ -513,7 +520,9 @@ RCT_EXPORT_METHOD(openVideoPicker:(NSDictionary *)options callback:(RCTResponseS
     NSInteger size      = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil].fileSize;
     photo[@"size"]      = @(size);
     photo[@"mediaType"] = @(phAsset.mediaType);
-	 photo[@"creationDate"] = strDate;
+    photo[@"creationDate"] = strDate;
+    photo[@"latitude"] = latitude;
+    photo[@"longitude"] = longitude;
     if ([self.cameraOptions sy_boolForKey:@"enableBase64"] && !isGIF) {
         photo[@"base64"] = [NSString stringWithFormat:@"data:image/jpeg;base64,%@", [writeData base64EncodedStringWithOptions:0]];
     }
