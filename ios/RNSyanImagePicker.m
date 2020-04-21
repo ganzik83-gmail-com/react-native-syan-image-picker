@@ -482,7 +482,13 @@ RCT_EXPORT_METHOD(openVideoPicker:(NSDictionary *)options callback:(RCTResponseS
     UIImage *image = nil;
     NSData *writeData = nil;
     NSMutableString *filePath = [NSMutableString string];
-
+//    NSDate -> NSString 날짜 형식 변환
+     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+       [formatter setDateFormat:@"yyyy-MM-dd hh:mm:ss Z"];
+// 사진 생성일 string 타입으로 저장
+    NSString *strDate = [formatter stringFromDate:phAsset.creationDate];
+//        NSLog(@"%@", strDate);
+	
     BOOL isPNG = [fileExtension hasSuffix:@"PNG"] || [fileExtension hasSuffix:@"png"];
 
     if (isGIF) {
@@ -507,6 +513,7 @@ RCT_EXPORT_METHOD(openVideoPicker:(NSDictionary *)options callback:(RCTResponseS
     NSInteger size      = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil].fileSize;
     photo[@"size"]      = @(size);
     photo[@"mediaType"] = @(phAsset.mediaType);
+	 photo[@"creationDate"] = strDate;
     if ([self.cameraOptions sy_boolForKey:@"enableBase64"] && !isGIF) {
         photo[@"base64"] = [NSString stringWithFormat:@"data:image/jpeg;base64,%@", [writeData base64EncodedStringWithOptions:0]];
     }
