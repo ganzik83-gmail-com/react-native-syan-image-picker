@@ -523,6 +523,7 @@ RCT_EXPORT_METHOD(openVideoPicker:(NSDictionary *)options callback:(RCTResponseS
     photo[@"creationDate"] = strDate;
     photo[@"latitude"] = latitude;
     photo[@"longitude"] = longitude;
+	photo[@"fileExtension"] = fileExtension;
     if ([self.cameraOptions sy_boolForKey:@"enableBase64"] && !isGIF) {
         photo[@"base64"] = [NSString stringWithFormat:@"data:image/jpeg;base64,%@", [writeData base64EncodedStringWithOptions:0]];
     }
