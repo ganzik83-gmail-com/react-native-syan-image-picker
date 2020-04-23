@@ -465,6 +465,7 @@ RCT_EXPORT_METHOD(openVideoPicker:(NSDictionary *)options callback:(RCTResponseS
     NSInteger size = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil].fileSize;
     photo[@"size"] = @(size);
     photo[@"mediaType"] = @(phAsset.mediaType);
+	photo[@"fileExtension"] = fileExtension;
     if ([self.cameraOptions sy_boolForKey:@"enableBase64"]) {
         photo[@"base64"] = [NSString stringWithFormat:@"data:image/jpeg;base64,%@", [writeData base64EncodedStringWithOptions:0]];
     }
