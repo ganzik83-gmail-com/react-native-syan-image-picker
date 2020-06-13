@@ -411,6 +411,9 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
     private WritableMap getImageResult(LocalMedia media, Boolean enableBase64) {
         WritableMap imageMap = new WritableNativeMap();
         String path = media.getPath();
+        
+        Date nowDate = new Date();
+        CharSequence picTime = android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss",nowDate.getTime());
 
         if (media.isCompressed() || media.isCut()) {
             path = media.getCompressPath();
@@ -441,6 +444,7 @@ public class RNSyanImagePickerModule extends ReactContextBaseJavaModule {
         imageMap.putString("uri", "file://" + path);
         imageMap.putString("path", media.getPath());
         imageMap.putString("mime", media.getMimeType());
+        imageMap.putString("creationDate", picTime.toString());
         imageMap.putInt("size", (int) new File(path).length());
 
         if (enableBase64) {
