@@ -516,6 +516,7 @@ RCT_EXPORT_METHOD(openVideoPicker:(NSDictionary *)options callback:(RCTResponseS
     [writeData writeToFile:filePath atomically:YES];
 
     photo[@"uri"]       = filePath;
+    photo[@"path"]      = filePath;
     photo[@"width"]     = @(image.size.width);
     photo[@"height"]    = @(image.size.height);
     NSInteger size      = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil].fileSize;
