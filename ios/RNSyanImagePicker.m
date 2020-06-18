@@ -466,6 +466,7 @@ RCT_EXPORT_METHOD(openVideoPicker:(NSDictionary *)options callback:(RCTResponseS
     NSInteger size = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil].fileSize;
     photo[@"size"] = @(size);
     photo[@"mediaType"] = @(phAsset.mediaType);
+	photo[@"timestamp"] = [[RNSyanImagePicker ISO8601DateFormatter] stringFromDate:phAsset.creationDate];
 	photo[@"fileExtension"] = fileExtension;
     if ([self.cameraOptions sy_boolForKey:@"enableBase64"]) {
         photo[@"base64"] = [NSString stringWithFormat:@"data:image/jpeg;base64,%@", [writeData base64EncodedStringWithOptions:0]];
@@ -524,6 +525,7 @@ RCT_EXPORT_METHOD(openVideoPicker:(NSDictionary *)options callback:(RCTResponseS
     photo[@"size"]      = @(size);
     photo[@"mediaType"] = @(phAsset.mediaType);
     photo[@"creationDate"] = strDate;
+	photo[@"timestamp"] = [[RNSyanImagePicker ISO8601DateFormatter] stringFromDate:phAsset.creationDate];
     photo[@"latitude"] = latitude;
     photo[@"longitude"] = longitude;
 	photo[@"fileExtension"] = fileExtension;
@@ -601,6 +603,19 @@ RCT_EXPORT_METHOD(openVideoPicker:(NSDictionary *)options callback:(RCTResponseS
 
 - (dispatch_queue_t)methodQueue {
     return dispatch_get_main_queue();
+}
+
++ (NSDateFormatter * _Nonnull)ISO8601DateFormatter {
+    static NSDateFormatter *ISO8601DateFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        ISO8601DateFormatter = [[NSDateFormatter alloc] init];
+        NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+        ISO8601DateFormatter.locale = enUSPOSIXLocale;
+        ISO8601DateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+        ISO8601DateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
+    });
+    return ISO8601DateFormatter;
 }
 
 @end
